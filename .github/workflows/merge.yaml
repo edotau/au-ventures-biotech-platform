@@ -18,32 +18,11 @@ jobs:
     needs: [lint]
     uses: ./.github/workflows/test.yaml
 
-  eb_deploy_dev:
+  build_docker:
     needs: [lint, test]
-    uses: ./.github/workflows/eb-deploy.yaml
+    uses: ./.github/workflows/docker-build.yaml
     with:
       ENVIRONMENT: dev
-      AWS_ACCOUNT_ID: '402562087042'
-      DX_PORTAL_URL: 'dx.dev.mammothbio.net'
-    secrets:
-      token: ${{ secrets.TOKEN }}
-
-  eb_deploy_test:
-    needs: [lint, test, eb_deploy_dev]
-    uses: ./.github/workflows/eb-deploy.yaml
-    with:
-      ENVIRONMENT: test
-      AWS_ACCOUNT_ID: '020724051618'
-      DX_PORTAL_URL: 'dx.test.mammothbio.net'
-    secrets:
-      token: ${{ secrets.TOKEN }}
-
-  eb_deploy_prod:
-    needs: [lint, test, eb_deploy_dev, eb_deploy_test]
-    uses: ./.github/workflows/eb-deploy.yaml
-    with:
-      ENVIRONMENT: prod
-      AWS_ACCOUNT_ID: '434246221415'
-      DX_PORTAL_URL: 'dx.mammothbio.net'
+      image_branch_tag: 'latest'
     secrets:
       token: ${{ secrets.TOKEN }}
