@@ -1,0 +1,37 @@
+name: docker-build
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      image_branch_tag:
+        required: true
+        type: string
+
+jobs:
+  docker_build:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_DEFAULT_REGION: us-west-2
+      IMAGE_REPO_ROOT: ${{ github.event.repository.name }}
+      IMAGE_BRANCH_TAG: ${{ inputs.IMAGE_BRANCH_TAG }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: set commit_sha for PR
+      if: ${{ github.event_name == 'pull_request' }}
+      run: |
+        short_sha=`echo ${{ github.event.pull_request.head.sha }} | cut -c 1-8`
+        echo "CI_COMMIT_SHORT_SHA=${short_sha}" >> $GITHUB_ENV
+
+    - name: set commit_sha for MERGE
+      if: ${{ github.event_name == 'push' }}
+      run: |
+        echo "CI_COMMIT_SHORT_SHA=${GITHUB_SHA::8}" >> $GITHUB_ENV
+    - name: docker build
+      run: |
+        docker-compose build --parallel
