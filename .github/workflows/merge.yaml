@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-
-env:
-  AWS_DEFAULT_REGION: us-west-2
-  DEBUG: false
-
 jobs:
 
   lint:
@@ -22,7 +17,5 @@ jobs:
     needs: [lint, test]
     uses: ./.github/workflows/docker-build.yaml
     with:
-      ENVIRONMENT: dev
       image_branch_tag: 'latest'
-    secrets:
-      token: ${{ secrets.TOKEN }}
+      image_sha_tag: ${{ github.sha }}

@@ -3,9 +3,6 @@ name: docker-build
 on:
   workflow_call:
     inputs:
-      environment:
-        required: true
-        type: string
       image_branch_tag:
         required: true
         type: string
