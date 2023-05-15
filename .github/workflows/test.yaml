@@ -34,5 +34,5 @@ jobs:
       - name: install pip deps
         run: make install
 
-      - name: run python lint
+      - name: run python test
         run: make test

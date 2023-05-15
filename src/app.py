@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
 import streamlit as st
 
-page_title_input = 'Mammoth Bio Science Dev'
+page_title_input = 'Au Ventures Platform'
 
 
 def app():
