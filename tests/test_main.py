@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
-import unittest
+from unittest import TestCase
 
 
-class TestStreamlitApp(unittest.TestCase):
+class TestAppPy(TestCase):
     def test_placeholder(self):
         pass
